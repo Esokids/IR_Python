@@ -21,8 +21,10 @@ def invertedIndex():
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, 'html.parser')
         data = soup.find("body").text.lower()
-        tokens = set(sorted(word_tokenize(data)))
+        tokens = set(word_tokenize(data))
         tokens = [w for w in tokens if w not in stop_words]
+        tokens = sorted(tokens)
+
         for word in tokens:
             dic[word].append(i+1)
 
@@ -49,3 +51,32 @@ def positionalIndex():
 
     for keys, values in [(keys, values) for x in dic['sport'] for (keys, values) in x.items()]:
         print(keys, values)
+
+    ''''' **** same ****
+    # for x in dic['sport']:
+    #     for key, value in x.items():
+    #         print(key, value)
+    #         print(type(keys), type(value))
+    '''''
+
+
+def binarySearchTree():
+    pass
+
+
+def hash_Dictionary():
+    dic = defaultdict(list)
+    # for i in range(len(df)):
+    for i in range(3):
+        url = df['Link'][i]
+        resp = requests.get(url)
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        data = soup.find("body").text.lower()
+        tokens = set(word_tokenize(data))
+        tokens = [w for w in tokens if w not in stop_words]
+        tokens = sorted(tokens)
+
+        for word in tokens:
+            dic[word].append(i+1)
+
+    print(dic['sport'])
