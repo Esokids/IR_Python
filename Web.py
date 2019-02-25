@@ -12,10 +12,8 @@ def index():
 @app.route('/result', methods=['POST', 'GET'])
 def result():
     if request.method == "POST":
-        result = request.args
         word = request.form.get("Search")
-        # res = {"FOUND": word, "Prayut": "Chanocha"}
-        res = ir.invertedIndex()
+        res = ir.invertedIndex(word)
     return render_template("result.html", result=res)
 
 

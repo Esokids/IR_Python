@@ -4,7 +4,7 @@ from BinarySearchTree import BST
 from bs4 import BeautifulSoup
 from nltk import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem import  PorterStemmer
+from nltk.stem import PorterStemmer
 from collections import defaultdict
 # nltk.download('punkt')
 # nltk.download('stopwords')
@@ -15,10 +15,10 @@ stop_words.update(punctuations)
 df = pandas.read_csv("50web.csv", encoding='utf-8')
 
 
-def invertedIndex():
+def invertedIndex(search="sported"):
     dic = defaultdict(list)
     # for i in range(len(df)):
-    for i in range(3):
+    for i in range(10):
         url = df['Link'][i]
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, 'html.parser')
@@ -26,12 +26,31 @@ def invertedIndex():
         tokens = word_tokenize(data)
         tokens = set([PorterStemmer().stem(token) for token in tokens])
         tokens = [w for w in tokens if w not in stop_words]
-        # tokens = sorted(tokens)
         for word in tokens:
             dic[word].append(i+1)
+    search = word_tokenize(search)
+    search = [PorterStemmer().stem(word) for word in search]
+    search = [w for w in search if w not in stop_words]
 
-    search = PorterStemmer().stem('sported')
-    result = [df['Link'][index] for index in dic[search]]
+    print(Intersect_word(dic, search))
+    return Intersect_word(dic, search)
+
+
+def Intersect_word(dic, search):
+    if len(search) == 1:
+        result = dic[search[0]]
+    else:
+        i = 1
+        result = []
+        for word in search:
+            if i == 1:
+                temp = set(dic[word])
+                i += 1
+            else:
+                result = set(dic[word])
+                temp = temp & result
+                result = temp
+    result = [df['Link'][index] for index in result]
     return result
 
 
@@ -104,7 +123,7 @@ def testBST():
 '''''
 
 
-def hash_Dictionary():
+def hash_Dictionary(search):
     dic = defaultdict(list)
     # for i in range(len(df)):
     for i in range(3):
@@ -118,8 +137,9 @@ def hash_Dictionary():
 
         for word in tokens:
             dic[word].append(i+1)
-
-    print(dic['sport'])
+    search = PorterStemmer().stem(search)
+    result = [df['Link'][index] for index in dic[search]]
+    return result
 
 
 if __name__ == '__main__':
