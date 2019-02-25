@@ -28,7 +28,7 @@ def invertedIndex():
         for token in tokens:
             stem.add(PorterStemmer().stem(token))
         tokens = [w for w in stem if w not in stop_words]
-        tokens = sorted(tokens)
+        # tokens = sorted(tokens)
 
         for word in tokens:
             dic[word].append(i+1)
