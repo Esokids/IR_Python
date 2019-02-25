@@ -23,8 +23,11 @@ def invertedIndex():
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, 'html.parser')
         data = soup.find("body").text.lower()
-        tokens = set(word_tokenize(data))
-        tokens = [w for w in tokens if w not in stop_words]
+        tokens = word_tokenize(data)
+        stem = set()
+        for token in tokens:
+            stem.add(PorterStemmer().stem(token))
+        tokens = [w for w in stem if w not in stop_words]
         tokens = sorted(tokens)
 
         for word in tokens:
