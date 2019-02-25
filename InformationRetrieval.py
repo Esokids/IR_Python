@@ -31,7 +31,8 @@ def invertedIndex():
             dic[word].append(i+1)
 
     search = PorterStemmer().stem('sported')
-    print(dic[search])
+    result = [df['Link'][index] for index in dic[search]]
+    return result
 
 
 def positionalIndex():
@@ -87,6 +88,7 @@ def binarySearchTree():
     # print(bst.find('sport'))
 
 
+'''''
 def testBST():
     bst = BST()
     # arr = sorted([1,2,3,4,5,6,7,8,9,0])
@@ -99,6 +101,7 @@ def testBST():
     # print(bst.find(10))
     # print(bst.find('aa'))
     print(bst.find('a'))
+'''''
 
 
 def hash_Dictionary():
