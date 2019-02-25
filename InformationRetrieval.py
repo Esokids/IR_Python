@@ -1,8 +1,10 @@
 import pandas
 import requests
+from BinarySearchTree import BST
 from bs4 import BeautifulSoup
 from nltk import word_tokenize
 from nltk.corpus import stopwords
+from nltk.stem import  PorterStemmer
 from collections import defaultdict
 # nltk.download('punkt')
 # nltk.download('stopwords')
@@ -28,7 +30,8 @@ def invertedIndex():
         for word in tokens:
             dic[word].append(i+1)
 
-    print(dic['sport'])
+    search = PorterStemmer().stem('sported')
+    print(dic[search])
 
 
 def positionalIndex():
@@ -61,7 +64,40 @@ def positionalIndex():
 
 
 def binarySearchTree():
-    pass
+    dic = defaultdict(list)
+    bst = BST()
+    # for i in range(len(df)):
+    for i in range(3):
+        url = df['Link'][i]
+        resp = requests.get(url)
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        data = soup.find("body").text.lower()
+        tokens = set(word_tokenize(data))
+        tokens = [w for w in tokens if w not in stop_words]
+        tokens = sorted(tokens)
+        for word in tokens:
+            dic[word].append(i + 1)
+
+    print(dic)
+
+    # for e in dic:
+    #     bst.insert(e)
+
+    # print(bst.find('sport'))
+
+
+def testBST():
+    bst = BST()
+    # arr = sorted([1,2,3,4,5,6,7,8,9,0])
+    # arr = sorted(['a','b','c','d','e','f','g','h','i','j','aa'])
+    arr = {'a':[1,2], 'b':[1], 'c':[2], 'd':[3], 'e':[4,5]}
+    for value in arr.items():
+        bst.insert(value)
+        print(value)
+
+    # print(bst.find(10))
+    # print(bst.find('aa'))
+    print(bst.find('a'))
 
 
 def hash_Dictionary():
@@ -80,3 +116,9 @@ def hash_Dictionary():
             dic[word].append(i+1)
 
     print(dic['sport'])
+
+
+if __name__ == '__main__':
+    invertedIndex()
+    # binarySearchTree()
+    # testBST()

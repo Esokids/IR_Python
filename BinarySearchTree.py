@@ -51,7 +51,8 @@ class BST:
         if currentNode is None:
             return False
         elif val == currentNode.val:
-            return True
+            # return True
+            return currentNode.val
         elif val < currentNode.val:
             return self.findNode(currentNode.leftChild, val)
         else:
