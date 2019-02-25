@@ -24,12 +24,9 @@ def invertedIndex():
         soup = BeautifulSoup(resp.text, 'html.parser')
         data = soup.find("body").text.lower()
         tokens = word_tokenize(data)
-        stem = set()
-        for token in tokens:
-            stem.add(PorterStemmer().stem(token))
-        tokens = [w for w in stem if w not in stop_words]
+        tokens = set([PorterStemmer().stem(token) for token in tokens])
+        tokens = [w for w in tokens if w not in stop_words]
         # tokens = sorted(tokens)
-
         for word in tokens:
             dic[word].append(i+1)
 
@@ -46,6 +43,7 @@ def positionalIndex():
         soup = BeautifulSoup(resp.content, 'html.parser')
         content = soup.find("body").text.lower()
         tokens = word_tokenize(content)
+        tokens = [PorterStemmer().stem(token) for token in tokens]
         tokens = [w for w in tokens if w not in stop_words]
         tokens_set = list(set(tokens))
 
@@ -123,5 +121,6 @@ def hash_Dictionary():
 
 if __name__ == '__main__':
     invertedIndex()
+    # positionalIndex()
     # binarySearchTree()
     # testBST()
